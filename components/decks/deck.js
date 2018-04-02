@@ -37,8 +37,6 @@ class Deck extends React.Component {
     const { height } = Dimensions.get('window');
     const navigationBarHeight = Header.HEIGHT;
 
-    console.log(Dimensions.get('window'));
-    console.log(`Number of decks: ${numberOfDecks}`);
     return (
       <View
         style={[
