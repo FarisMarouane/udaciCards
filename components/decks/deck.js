@@ -22,7 +22,7 @@ class Deck extends React.Component {
     getDeck(this.props.name)
       .then(deck => this.setState({ cards: deck[0].questions }))
       .catch(err => console.log(err));
-      
+
   render() {
     const {
       navigation,
@@ -34,6 +34,11 @@ class Deck extends React.Component {
 
     const { cards } = this.state;
     const numberOfCards = cards.length;
+    const { height } = Dimensions.get('window');
+    const navigationBarHeight = Header.HEIGHT;
+
+    console.log(Dimensions.get('window'));
+    console.log(`Number of decks: ${numberOfDecks}`);
     return (
       <View
         style={[
@@ -45,7 +50,8 @@ class Deck extends React.Component {
             borderBottomWidth: 1,
           },
           {
-            height: 300,
+            height: numberOfDecks === 1 ? (height - navigationBarHeight)
+             : numberOfDecks === 2 ? (height - navigationBarHeight)/2 : 300,
           },
         ]}
       >
@@ -67,7 +73,7 @@ class Deck extends React.Component {
           onPress={() => navigation.navigate('Create Deck', { updateDeckList })}
           style={styles.touchable}
         >
-          <View style={styles.addNewDeck} >
+          <View style={styles.addNewDeck}>
             <MaterialIcons name="add-box" size={11} color="green" />
             <Text style={{ fontSize: 10, fontStyle: 'italic', color: 'blue' }}>
               Or add a new deck

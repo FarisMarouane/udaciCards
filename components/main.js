@@ -21,6 +21,7 @@ class Decks extends React.Component {
   };
 
   async componentDidMount() {
+    //AsyncStorage.clear()
     await getDecks().then(data => {
       const decksBis = JSON.parse(data);
       this.setState({
