@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 import Card from './card';
 import QuizResult from './quizResult';
 import EmptyDeck from './emptyDeck';
-import calculateScore from '../utils/calculateScore';
+import { calculateScore } from '../utils/helpers';
 
 export default class Questions extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -21,6 +21,7 @@ export default class Questions extends React.Component {
   state = {
     total: this.props.navigation.state.params.cards.length,
     cards: [],
+    questionsAnswered: {},
   };
 
   componentWillMount() {
@@ -36,7 +37,8 @@ export default class Questions extends React.Component {
     this.props.navigation.setParams({ index });
 
     if (index === this.props.navigation.state.params.cards.length - 1) {
-      const { cards, questionsAnswered } = this.props.navigation.state.params;
+      const { questionsAnswered } = this.state;
+      const { cards } = this.props.navigation.state.params;
       const resultCard = {
         score: calculateScore(questionsAnswered),
       };
@@ -45,16 +47,23 @@ export default class Questions extends React.Component {
     }
   };
 
+  handleAnswer = (index, answer) =>
+    this.setState(prevState => {
+      return {
+        questionsAnswered: {
+          ...prevState.questionsAnswered,
+          [index]: answer,
+        },
+      };
+    });
+
   render() {
     const { cards } = this.state;
     const { navigation } = this.props;
     const {
       updateCardsListInDetailScreen,
       updateCardsListDecksScreen,
-      updateInitialInCardsList,
-      handleAnswer,
     } = this.props.navigation.state.params;
-    console.log(cards);
 
     return (
       <Swiper
@@ -70,7 +79,7 @@ export default class Questions extends React.Component {
                   key={Math.random().toString()}
                   card={card}
                   index={i}
-                  handleAnswer={handleAnswer}
+                  handleAnswer={this.handleAnswer}
                 />
               );
             }
@@ -85,7 +94,6 @@ export default class Questions extends React.Component {
         ) : (
           <EmptyDeck
             navigation={navigation}
-            updateInitialInCardsList={updateInitialInCardsList}
             updateCardsListDecksScreen={updateCardsListDecksScreen}
             updateCardsListInDetailScreen={updateCardsListInDetailScreen}
           />

@@ -30,7 +30,7 @@ export function setLocalNotification() {
             Notifications.cancelAllScheduledNotificationsAsync();
 
             let date = new Date();
-            date.setDate(date.getDate() +1 );
+            date.setDate(date.getDate() + 1);
             date.setHours(20);
             date.setMinutes(30);
 
@@ -50,4 +50,13 @@ export function clearLocalNotification() {
   return AsyncStorage.removeItem(NOTIFICATION_KEY).then(
     Notifications.cancelAllScheduledNotificationsAsync,
   );
+}
+
+export function calculateScore(questionsAnswered) {
+  let score = 0;
+  Object.keys(questionsAnswered).forEach(index => {
+    if (questionsAnswered[index] === 'correct') score += 1;
+  });
+
+  return score;
 }
