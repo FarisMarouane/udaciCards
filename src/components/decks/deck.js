@@ -11,7 +11,8 @@ import {
 import { Header } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { getDeck } from '../utils/api';
+import { getDeck } from '../../utils/api';
+import colors from '../../utils/colors';
 
 class Deck extends React.Component {
   state = {
@@ -44,12 +45,16 @@ class Deck extends React.Component {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor: colors.backgroundColor,
             borderBottomWidth: 1,
           },
           {
-            height: numberOfDecks === 1 ? (height - navigationBarHeight)
-             : numberOfDecks === 2 ? (height - navigationBarHeight)/2 : 300,
+            height:
+              numberOfDecks === 1
+                ? height - navigationBarHeight
+                : numberOfDecks === 2
+                  ? (height - navigationBarHeight) / 2
+                  : 300,
           },
         ]}
       >
@@ -68,12 +73,20 @@ class Deck extends React.Component {
           }
         />
         <TouchableHighlight
-          onPress={() => navigation.navigate('Create Deck', { updateDeckList })}
+          onPress={() =>
+            navigation.navigate('Create Deck', {
+              name,
+              cards,
+              decks,
+              updateDeckList,
+              updateCardsListDecksScreen: this.updateCardsListDecksScreen,
+            })
+          }
           style={styles.touchable}
         >
           <View style={styles.addNewDeck}>
             <MaterialIcons name="add-box" size={11} color="green" />
-            <Text style={{ fontSize: 10, fontStyle: 'italic', color: 'blue' }}>
+            <Text style={{ fontSize: 10, fontStyle: 'italic', color: colors.udacityBlue }}>
               Or add a new deck
             </Text>
           </View>
@@ -94,7 +107,7 @@ const styles = StyleSheet.create({
   },
   cardsNumber: {
     fontWeight: '100',
-    color: '#9e9e9e',
+    color: colors.grey,
     marginTop: 5,
   },
   addNewDeck: {

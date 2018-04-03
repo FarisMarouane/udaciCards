@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import colors from '../../utils/colors';
+
 export default ({
   navigation,
   updateInitialInCardsList,
@@ -36,13 +38,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
   },
   createDeck: {
     marginTop: 10,
     padding: 3,
     width: '50%',
-    backgroundColor: '#3475d3',
+    backgroundColor: colors.udacityBlue,
     display: 'flex',
     alignItems: 'center',
     borderRadius: 4,

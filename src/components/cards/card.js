@@ -11,6 +11,8 @@ import {
 import { Header } from 'react-navigation';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import colors from '../../utils/colors';
+
 export default class Card extends React.Component {
   constructor() {
     super();
@@ -92,7 +94,7 @@ export default class Card extends React.Component {
                 handleAnswer(index, 'correct');
               }}
               style={styles.correctButton}
-              underlayColor="gray"
+              underlayColor={colors.buttonUnderlay}
             >
               <Text style={{ color: 'white', textAlign: 'center' }}>
                 Correct
@@ -102,7 +104,7 @@ export default class Card extends React.Component {
               underlayColor={'green'}
               onPress={() => handleAnswer(index, 'incorrect')}
               style={styles.incorrectButton}
-              underlayColor="gray"
+              underlayColor={colors.buttonUnderlay}
             >
               <Text style={{ color: 'white', textAlign: 'center' }}>
                 Incorrect
@@ -135,7 +137,7 @@ export default class Card extends React.Component {
                 size={20}
                 color="green"
               />
-              <Text style={{fontSize: 20}}>Go back to the question</Text>
+              <Text style={{ fontSize: 20 }}>Go back to the question</Text>
             </View>
           </TouchableHighlight>
         </Animated.View>
@@ -178,18 +180,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
     position: 'absolute',
   },
   flipText: {
     width: '100%',
     textAlign: 'center',
     fontSize: 20,
-    color: 'black',
+    color: colors.black,
     fontWeight: 'bold',
   },
   text: {
-    color: 'black',
+    color: colors.black,
     fontSize: 30,
     fontWeight: 'bold',
   },

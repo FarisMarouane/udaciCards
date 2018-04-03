@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native';
 
-import { saveDeckTitle } from '../utils/api';
+import { saveDeckTitle } from '../../utils/api';
+import colors from '../../utils/colors';
 
 const Form = t.form.Form;
 
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.backgroundColor,
   },
   title: {
     fontSize: 24,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '30%',
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
     padding: 10,
     borderRadius: 4,
   },

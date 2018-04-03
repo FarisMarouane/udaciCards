@@ -10,7 +10,7 @@ import addCard from './cards/addCard';
 import Welcome from './welcome';
 import Questions from './cards/questions';
 
-import { saveDeckTitle, getDecks, getDeck } from './utils/api';
+import { saveDeckTitle, getDecks, getDeck } from '../utils/api';
 
 class Decks extends React.Component {
   static navigationOptions = {
@@ -81,5 +81,5 @@ export default StackNavigator({
   'Deck Detail': { screen: DeckDetail },
   'Add Card': { screen: addCard },
   'Create Deck': { screen: CreateDeck },
-  Questions: { screen: Questions },
+  'Questions': { screen: Questions },
 });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import colors from '../utils/colors';
+
 export default ({ navigation, updateDeckList }) => (
   <View style={styles.welcome}>
     <Text style={styles.welcomeMessage}>Welcome to the UdaciCards App</Text>
@@ -21,17 +23,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
   },
   welcomeMessage: {
-    color: '#00ade7',
+    color: colors.udacityBlue,
     fontSize: 20,
   },
   createDeck: {
     marginTop: 10,
     padding: 3,
     width: '50%',
-    backgroundColor: '#3475d3',
+    backgroundColor: colors.black,
     display: 'flex',
     alignItems: 'center',
     borderRadius: 4,

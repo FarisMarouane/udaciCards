@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 import Card from './card';
 import QuizResult from './quizResult';
 import EmptyDeck from './emptyDeck';
-import { calculateScore } from '../utils/helpers';
+import { calculateScore } from '../../utils/helpers';
 
 export default class Questions extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -86,7 +86,7 @@ export default class Questions extends React.Component {
             return (
               <QuizResult
                 key={Math.random().toString()}
-                card={card}
+                quizCard={card}
                 cards={cards}
               />
             );

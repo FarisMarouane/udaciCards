@@ -7,9 +7,9 @@ import {
   Alert,
 } from 'react-native';
 
-import { getDeck } from '../utils/api';
-import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
-import calculateScore from '../utils/calculateScore';
+import { getDeck } from '../../utils/api';
+import { clearLocalNotification, setLocalNotification } from '../../utils/helpers';
+import colors from '../../utils/colors';
 
 export default class DeckDetail extends React.Component {
   static navigationOptions = {
@@ -18,7 +18,6 @@ export default class DeckDetail extends React.Component {
 
   state = {
     cards: this.props.navigation.state.params.cards,
-    questionsAnswered: {},
   };
 
   updateCardsListInDetailScreen = () => {
@@ -27,28 +26,6 @@ export default class DeckDetail extends React.Component {
       .then(deck => this.setState({ cards: deck[0].questions }))
       .catch(err => console.log(err));
   };
-
-  updateInitialInCardsList = async () => {
-    // So questions swiper displays latest added card
-    const resultCard = {
-      score: calculateScore(this.state.questionsAnswered),
-    };
-    await getDeck(this.props.name)
-      .then(deck =>
-        this.setState({ cards: [...deck[0].questions, resultCard] }),
-      )
-      .catch(err => console.log(err));
-  };
-
-  handleAnswer = (index, answer) =>
-    this.setState(prevState => {
-      return {
-        questionsAnswered: {
-          ...prevState.questionsAnswered,
-          [index]: answer,
-        },
-      };
-    });
 
   onPress = () => {
     clearLocalNotification().then(setLocalNotification);
@@ -60,10 +37,7 @@ export default class DeckDetail extends React.Component {
     } = this.props.navigation.state.params;
     this.props.navigation.navigate('Questions', {
       cards,
-      handleAnswer: this.handleAnswer,
-      questionsAnswered: this.state.questionsAnswered,
       updateDeckList,
-      updateInitialInCardsList: this.updateInitialInCardsList,
       updateCardsListDecksScreen,
       updateCardsListInDetailScreen: this.updateCardsListInDetailScreen,
       title: name,
@@ -90,11 +64,9 @@ export default class DeckDetail extends React.Component {
               this.props.navigation.navigate('Add Card', {
                 title: name,
                 updateDeckList,
-                updateInitialInCardsList: this.updateInitialInCardsList,
                 updateCardsListDecksScreen,
                 updateCardsListInDetailScreen: this
                   .updateCardsListInDetailScreen,
-                cards,
                 decks,
               })
             }
@@ -107,7 +79,7 @@ export default class DeckDetail extends React.Component {
             onPress={this.onPress}
             style={styles.quizzButton}
           >
-            <Text style={{ color: 'white' }}>Start Quiz</Text>
+            <Text style={{ color: colors.backgroundColor }}>Start Quiz</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -121,24 +93,24 @@ const styles = StyleSheet.create({
   },
   cardsNumber: {
     fontWeight: '100',
-    color: '#9e9e9e',
+    color: colors.grey,
     marginTop: 5,
   },
   cardButton: {
-    backgroundColor: 'white',
+    backgroundColor: colors.backgroundColor,
     padding: 10,
     borderWidth: 1,
     borderRadius: 4,
   },
   quizzButton: {
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
     padding: 10,
     marginTop: 10,
     borderRadius: 4,
   },
   deckDetail: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
     justifyContent: 'center',
     alignItems: 'center',
   },
