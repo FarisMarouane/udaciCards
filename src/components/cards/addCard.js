@@ -8,7 +8,8 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native';
 
-import { addCardToDeck } from '../utils/api';
+import { addCardToDeck, getDeck } from '../../utils/api';
+import colors from '../../utils/colors';
 
 const Form = t.form.Form;
 
@@ -37,10 +38,9 @@ class Card extends React.Component {
   handleSubmit = async () => {
     const {
       title,
-      updateInitialInCardsList,
       updateCardsListDecksScreen,
       updateCardsListInDetailScreen,
-      cards,
+      updateDeckList,
       decks,
     } = this.props.navigation.state.params;
     const value = this._form.getValue();
@@ -50,10 +50,24 @@ class Card extends React.Component {
         answer: value.answer.trim(),
       };
       await addCardToDeck(title, trimmedValue);
-      await updateInitialInCardsList();
       await updateCardsListInDetailScreen();
       await updateCardsListDecksScreen();
-      this.props.navigation.goBack();
+
+      const updatedCardsList = [];
+
+      await getDeck(title)
+        .then(deck =>  {
+          updatedCardsList= [...deck[0].questions];
+        })
+        .catch(err => console.log(err));
+
+      this.props.navigation.navigate('Deck Detail', {
+        name: title,
+        cards: updatedCardsList,
+        decks,
+        updateDeckList,
+        updateCardsListDecksScreen,
+      });
     }
   };
   render() {
@@ -77,7 +91,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: colors.backgroundColor,
   },
   title: {
     fontSize: 24,
