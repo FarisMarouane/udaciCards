@@ -31,12 +31,19 @@ export default class createDeck extends React.Component {
     title: 'New Deck',
   };
   handleSubmit = () => {
-    const { updateDeckList } = this.props.navigation.state.params || this.props;
+    const { updateDeckList, name, cards, decks, updateCardsListDecksScreen }
+     = this.props.navigation.state.params || this.props;
     const value = this._form.getValue();
     if (value) {
       saveDeckTitle(value.title.trim());
       updateDeckList();
-      this.props.navigation.goBack();
+      this.props.navigation.navigate('Deck Detail', {
+        name: value.title.trim(),
+        cards: [],
+        decks,
+        updateDeckList,
+        updateCardsListDecksScreen,
+      });
     }
   };
 
