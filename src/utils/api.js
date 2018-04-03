@@ -31,11 +31,11 @@ export function addCardToDeck(title, card) {
   });
 }
 
-export async function getDecks() {
+export function getDecks() {
   return AsyncStorage.getItem(UdaciCardsKey);
 }
 
-export async function getDeck(name) {
+export function getDeck(name) {
   return AsyncStorage.getItem(UdaciCardsKey).then(data => {
     const decksBis = JSON.parse(data);
         return Object.keys(decksBis).map(key => ({ ...decksBis[key] }))
