@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import cards from './cards';
+import decks from './decks';
 
 const appReducers = combineReducers({
-  cards,
+  decks,
 });
 
 export default appReducers;

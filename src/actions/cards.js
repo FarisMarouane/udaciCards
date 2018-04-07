@@ -1,6 +1,7 @@
-export const addCard = card => {
+export const addCard = (deckTitle, card) => {
   return {
-    type: "ADD_CARDS",
+    type: 'ADD_CARD',
+    deckTitle,
     card,
-  }
-}
+  };
+};

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   View,
@@ -7,6 +8,8 @@ import {
   Text,
 } from 'react-native';
 import t from 'tcomb-form-native';
+
+import { addDeck } from '../../actions/decks';
 
 import { saveDeckTitle } from '../../utils/api';
 import colors from '../../utils/colors';
@@ -27,16 +30,29 @@ const options = {
   },
 };
 
-export default class createDeck extends React.Component {
+class createDeck extends React.Component {
   static navigationOptions = {
     title: 'New Deck',
   };
+
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   handleSubmit = () => {
-    const { updateDeckList, name, cards, decks, updateCardsListDecksScreen }
-     = this.props.navigation.state.params || this.props;
+    const {
+      updateDeckList,
+      name,
+      cards,
+      decks,
+      updateCardsListDecksScreen,
+    } =
+      this.props.navigation.state.params || this.props;
+    const { addDeckAction } = this.props;
     const value = this._form.getValue();
     if (value) {
       saveDeckTitle(value.title.trim());
+      addDeckAction(value.title.trim());
       updateDeckList();
       this.props.navigation.navigate('Deck Detail', {
         name: value.title.trim(),
@@ -63,6 +79,23 @@ export default class createDeck extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    decks: state.decks,
+  };
+};
+
+// Set up actions that are available to the ReminderList
+const mapDispatchToProps = dispatch => {
+  return {
+    addDeckAction: title => {
+      dispatch(addDeck(title));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(createDeck);
 
 const styles = StyleSheet.create({
   container: {
