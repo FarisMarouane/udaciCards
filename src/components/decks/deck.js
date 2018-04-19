@@ -33,7 +33,7 @@ class Deck extends React.Component {
       decks,
     } = this.props;
 
-    const { cards } = this.state;
+    const { cards } = this.props;
     const numberOfCards = cards.length;
     const { height } = Dimensions.get('window');
     const navigationBarHeight = Header.HEIGHT;

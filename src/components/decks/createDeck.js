@@ -36,7 +36,7 @@ class createDeck extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+//    console.log(this.props);
   }
 
   handleSubmit = () => {
@@ -51,9 +51,9 @@ class createDeck extends React.Component {
     const { addDeckAction } = this.props;
     const value = this._form.getValue();
     if (value) {
-      saveDeckTitle(value.title.trim());
+      // saveDeckTitle(value.title.trim());
       addDeckAction(value.title.trim());
-      updateDeckList();
+      // updateDeckList();
       this.props.navigation.navigate('Deck Detail', {
         name: value.title.trim(),
         cards: [],

@@ -38,7 +38,7 @@ class Card extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props);
+    // console.log(this.props);
   }
 
   handleSubmit = async () => {
@@ -59,7 +59,7 @@ class Card extends React.Component {
       };
       addCardAction(title, trimmedValue);
       
-      await addCardToDeck(title, trimmedValue);
+      // await addCardToDeck(title, trimmedValue);
       await updateCardsListInDetailScreen();
       await updateCardsListDecksScreen();
 

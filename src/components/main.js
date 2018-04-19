@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 
 import Deck from './decks/deck';
 import CreateDeck from './decks/createDeck';
@@ -11,35 +12,45 @@ import Welcome from './welcome';
 import Questions from './cards/questions';
 
 import { saveDeckTitle, getDecks, getDeck } from '../utils/api';
+import { transformIntoArray } from '../utils/helpers';
 
 class Decks extends React.Component {
   static navigationOptions = {
     title: 'Home',
   };
   state = {
-    decks: [],
+    decks: {},
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      decks: {...this.state.decks, ...nextProps.decks},
+    });
+  }
 
   async componentDidMount() {
     await getDecks().then(data => {
       const decksBis = JSON.parse(data);
-      this.setState({
-        decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
-      });
+      console.log(Object.keys(decksBis).map(key => ({ ...decksBis[key] })));
+      this.setState(
+        {
+          decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
+        }
+      );
     });
   }
 
-  updateDeckList = () =>
-    getDecks().then(data => {
-      const decksBis = JSON.parse(data);
-      this.setState({
-        decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
-      });
-    });
+  // updateDeckList = () =>
+  //   getDecks().then(data => {
+  //     const decksBis = JSON.parse(data);
+  //     this.setState({
+  //       decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
+  //     });
+  //   });
 
   render() {
     const { navigation } = this.props;
-    const { decks } = this.state;
+    const decks = transformIntoArray(this.state.decks);
     return (
       <View style={styles.dock}>
         {decks.length > 0 ? (
@@ -59,7 +70,7 @@ class Decks extends React.Component {
           />
         ) : (
           <Welcome
-            updateDeckList={this.updateDeckList}
+            // updateDeckList={this.updateDeckList}
             navigation={navigation}
           />
         )}
@@ -68,18 +79,31 @@ class Decks extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    decks: state.decks,
+  };
+};
+
+const DecksWithReduxStore = connect(mapStateToProps)(Decks);
+
 const styles = StyleSheet.create({
   dock: {
     flex: 1,
   },
 });
 
-export default StackNavigator({
-  Decks: {
-    screen: Decks,
+export default StackNavigator(
+  {
+    Decks: {
+      screen: DecksWithReduxStore,
+    },
+    'Deck Detail': { screen: DeckDetail },
+    'Add Card': { screen: addCard },
+    'Create Deck': { screen: CreateDeck },
+    Questions: { screen: Questions },
   },
-  'Deck Detail': { screen: DeckDetail },
-  'Add Card': { screen: addCard },
-  'Create Deck': { screen: CreateDeck },
-  'Questions': { screen: Questions },
-});
+  {
+    initialRouteName: 'Decks',
+  },
+);

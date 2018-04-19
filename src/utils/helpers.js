@@ -60,3 +60,7 @@ export function calculateScore(questionsAnswered) {
 
   return score;
 }
+
+export function transformIntoArray(object) {
+  return Object.keys(object).map(key => ({ ...object[key] }));
+}
