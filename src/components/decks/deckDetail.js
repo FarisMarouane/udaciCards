@@ -63,7 +63,6 @@ export default class DeckDetail extends React.Component {
             onPress={() =>
               this.props.navigation.navigate('Add Card', {
                 title: name,
-                updateDeckList,
                 updateCardsListDecksScreen,
                 updateCardsListInDetailScreen: this
                   .updateCardsListInDetailScreen,

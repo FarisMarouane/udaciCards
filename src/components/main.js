@@ -40,14 +40,6 @@ class Decks extends React.Component {
     });
   }
 
-  // updateDeckList = () =>
-  //   getDecks().then(data => {
-  //     const decksBis = JSON.parse(data);
-  //     this.setState({
-  //       decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
-  //     });
-  //   });
-
   render() {
     const { navigation } = this.props;
     const decks = transformIntoArray(this.state.decks);

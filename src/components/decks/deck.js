@@ -27,7 +27,6 @@ class Deck extends React.Component {
   render() {
     const {
       navigation,
-      updateDeckList,
       numberOfDecks,
       name,
       decks,
@@ -67,7 +66,6 @@ class Deck extends React.Component {
               name,
               cards,
               decks,
-              updateDeckList,
               updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }
@@ -78,7 +76,6 @@ class Deck extends React.Component {
               name,
               cards,
               decks,
-              updateDeckList,
               updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }

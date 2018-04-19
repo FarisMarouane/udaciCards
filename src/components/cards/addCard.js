@@ -46,7 +46,6 @@ class Card extends React.Component {
       title,
       updateCardsListDecksScreen,
       updateCardsListInDetailScreen,
-      updateDeckList,
       decks,
     } =
       this.props.navigation.state.params;
@@ -75,7 +74,6 @@ class Card extends React.Component {
         name: title,
         cards: updatedCardsList,
         decks,
-        updateDeckList,
         updateCardsListDecksScreen,
       });
     }
