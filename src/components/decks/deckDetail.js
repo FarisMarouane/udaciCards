@@ -6,12 +6,16 @@ import {
   TouchableHighlight,
   Alert,
 } from 'react-native';
+import { connect } from 'react-redux';
 
 import { getDeck } from '../../utils/api';
-import { clearLocalNotification, setLocalNotification } from '../../utils/helpers';
+import {
+  clearLocalNotification,
+  setLocalNotification,
+} from '../../utils/helpers';
 import colors from '../../utils/colors';
 
-export default class DeckDetail extends React.Component {
+class DeckDetail extends React.Component {
   static navigationOptions = {
     title: 'Detail View',
   };
@@ -20,36 +24,24 @@ export default class DeckDetail extends React.Component {
     cards: this.props.navigation.state.params.cards,
   };
 
-  updateCardsListInDetailScreen = () => {
-    const { name } = this.props.navigation.state.params;
-    getDeck(name)
-      .then(deck => this.setState({ cards: deck[0].questions }))
-      .catch(err => console.log(err));
-  };
-
   onPress = () => {
     clearLocalNotification().then(setLocalNotification);
-    const {
-      cards,
-      updateDeckList,
-      updateCardsListDecksScreen,
-      name,
-    } = this.props.navigation.state.params;
+    const { cards, updateDeckList, name } = this.props.navigation.state.params;
     this.props.navigation.navigate('Questions', {
       cards,
       updateDeckList,
-      updateCardsListDecksScreen,
-      updateCardsListInDetailScreen: this.updateCardsListInDetailScreen,
       title: name,
     });
   };
+
+  componentWillReceiveProps(nextProps) {
+    const { name } = this.props.navigation.state.params;
+    this.setState({
+      cards: nextProps.decks[name].questions,
+    });
+  }
   render() {
-    const {
-      name,
-      decks,
-      updateDeckList,
-      updateCardsListDecksScreen,
-    } = this.props.navigation.state.params;
+    const { name, updateDeckList } = this.props.navigation.state.params;
 
     const { cards } = this.state;
 
@@ -63,11 +55,6 @@ export default class DeckDetail extends React.Component {
             onPress={() =>
               this.props.navigation.navigate('Add Card', {
                 title: name,
-                updateDeckList,
-                updateCardsListDecksScreen,
-                updateCardsListInDetailScreen: this
-                  .updateCardsListInDetailScreen,
-                decks,
               })
             }
             style={styles.cardButton}
@@ -86,6 +73,12 @@ export default class DeckDetail extends React.Component {
     );
   }
 }
+
+export default connect(state => {
+  return {
+    decks: state.decks,
+  };
+})(DeckDetail);
 
 const styles = StyleSheet.create({
   name: {

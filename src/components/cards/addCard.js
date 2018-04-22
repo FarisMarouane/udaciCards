@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -8,6 +9,7 @@ import {
 } from 'react-native';
 import t from 'tcomb-form-native';
 
+import { addCard } from '../../actions/cards';
 import { addCardToDeck, getDeck } from '../../utils/api';
 import colors from '../../utils/colors';
 
@@ -38,35 +40,23 @@ class Card extends React.Component {
   handleSubmit = async () => {
     const {
       title,
-      updateCardsListDecksScreen,
-      updateCardsListInDetailScreen,
-      updateDeckList,
-      decks,
-    } = this.props.navigation.state.params;
+    } =
+    this.props.navigation.state.params;
+    const { addCardAction } = this.props;  
     const value = this._form.getValue();
     if (value !== null) {
       const trimmedValue = {
         question: value.question.trim(),
         answer: value.answer.trim(),
       };
-      await addCardToDeck(title, trimmedValue);
-      await updateCardsListInDetailScreen();
-      await updateCardsListDecksScreen();
 
+      addCardAction(title, trimmedValue);
+      
       const updatedCardsList = [];
-
-      await getDeck(title)
-        .then(deck =>  {
-          updatedCardsList= [...deck[0].questions];
-        })
-        .catch(err => console.log(err));
 
       this.props.navigation.navigate('Deck Detail', {
         name: title,
         cards: updatedCardsList,
-        decks,
-        updateDeckList,
-        updateCardsListDecksScreen,
       });
     }
   };
@@ -106,4 +96,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Card;
+const mapStateToProps = state => {
+  return {
+    decks: state.decks,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addCardAction: (deckTitle, card) => {
+      dispatch(addCard(deckTitle, card));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

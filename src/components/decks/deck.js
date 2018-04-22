@@ -19,21 +19,15 @@ class Deck extends React.Component {
     cards: this.props.cards,
   };
 
-  updateCardsListDecksScreen = () =>
-    getDeck(this.props.name)
-      .then(deck => this.setState({ cards: deck[0].questions }))
-      .catch(err => console.log(err));
-
   render() {
     const {
       navigation,
-      updateDeckList,
       numberOfDecks,
       name,
       decks,
     } = this.props;
 
-    const { cards } = this.state;
+    const { cards } = this.props;
     const numberOfCards = cards.length;
     const { height } = Dimensions.get('window');
     const navigationBarHeight = Header.HEIGHT;
@@ -66,9 +60,6 @@ class Deck extends React.Component {
             navigation.navigate('Deck Detail', {
               name,
               cards,
-              decks,
-              updateDeckList,
-              updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }
         />
@@ -78,8 +69,6 @@ class Deck extends React.Component {
               name,
               cards,
               decks,
-              updateDeckList,
-              updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }
           style={styles.touchable}
