@@ -8,7 +8,7 @@ import { addCardToDeck, saveDeckTitle } from './utils/api';
 import { setLocalNotification } from './utils/helpers';
 import Main from './components/main';
 
-const customMiddleWare = ({ getState }) => next => async action => {
+const customMiddleWare = () => next => async action => {
   const card = action['card'];
   const deckTitle = action['deckTitle'];
   if (action.type === 'ADD_CARD') {
@@ -24,17 +24,15 @@ const customMiddleWare = ({ getState }) => next => async action => {
       console.error(err);
     }
   }
-  // console.log('Middleware triggered:', action);
-  // console.log(getState());
+  console.log('Middleware triggered:', action.type);
   next(action);
 };
 
 let store = createStore(appReducers, applyMiddleware(customMiddleWare));
-export default class App extends React.Component {
+class App extends React.Component {
   componentDidMount() {
-    setLocalNotification();
+    setLocalNotification();;
   }
-
   render() {
     return (
       <Provider store={store}>
@@ -45,3 +43,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+  export default App;
