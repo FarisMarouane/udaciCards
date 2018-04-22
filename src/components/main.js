@@ -11,7 +11,7 @@ import addCard from './cards/addCard';
 import Welcome from './welcome';
 import Questions from './cards/questions';
 
-import { saveDeckTitle, getDecks, getDeck } from '../utils/api';
+import { saveDeckTitle, getDecks } from '../utils/api';
 import { initializeListOfDecks } from '../actions/decks';
 import { transformIntoArray } from '../utils/helpers';
 

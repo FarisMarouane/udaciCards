@@ -10,7 +10,6 @@ import {
 import t from 'tcomb-form-native';
 
 import { addCard } from '../../actions/cards';
-import { addCardToDeck, getDeck } from '../../utils/api';
 import colors from '../../utils/colors';
 
 const Form = t.form.Form;

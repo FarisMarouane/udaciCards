@@ -14,31 +14,26 @@ export function saveDeckTitle(title) {
   );
 }
 
-export function addCardToDeck(title, card) {
-  return AsyncStorage.getItem(UdaciCardsKey).then(results => {
-    const decks = JSON.parse(results);
+export async function addCardToDeck(title, card) {
+  const results = await AsyncStorage.getItem(UdaciCardsKey);
 
-    let questions = decks[title].questions;
+  const decks = JSON.parse(results);
+
+  let questions = decks[title].questions;
     questions.push(card);
 
-    const newCard = JSON.stringify({
+  const newCard = JSON.stringify({
       [title]: { title, questions },
     });
 
-    AsyncStorage.mergeItem(UdaciCardsKey, newCard).then(err =>
-      console.log(err),
-    );
-  });
+  try {
+    AsyncStorage.mergeItem(UdaciCardsKey, newCard);
+  } 
+  catch(err) {
+    console.log(err);
+  } 
 }
 
 export function getDecks() {
   return AsyncStorage.getItem(UdaciCardsKey);
-}
-
-export function getDeck(name) {
-  return AsyncStorage.getItem(UdaciCardsKey).then(data => {
-    const decksBis = JSON.parse(data);
-        return Object.keys(decksBis).map(key => ({ ...decksBis[key] }))
-        .filter(deck => deck.title === name);
-  });
 }

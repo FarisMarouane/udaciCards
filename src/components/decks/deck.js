@@ -11,7 +11,6 @@ import {
 import { Header } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { getDeck } from '../../utils/api';
 import colors from '../../utils/colors';
 
 class Deck extends React.Component {
