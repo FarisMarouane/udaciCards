@@ -12,6 +12,7 @@ import Welcome from './welcome';
 import Questions from './cards/questions';
 
 import { saveDeckTitle, getDecks, getDeck } from '../utils/api';
+import { initializeListOfDecks } from '../actions/decks';
 import { transformIntoArray } from '../utils/helpers';
 
 class Decks extends React.Component {
@@ -24,19 +25,14 @@ class Decks extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      decks: {...this.state.decks, ...nextProps.decks},
+      decks: { ...this.state.decks, ...nextProps.decks },
     });
   }
 
-  async componentDidMount() {
-    await getDecks().then(data => {
+  componentDidMount() {
+    getDecks().then(data => {
       const decksBis = JSON.parse(data);
-      console.log(Object.keys(decksBis).map(key => ({ ...decksBis[key] })));
-      this.setState(
-        {
-          decks: Object.keys(decksBis).map(key => ({ ...decksBis[key] })),
-        }
-      );
+      this.props.initializeListOfDecks(decksBis);
     });
   }
 
@@ -54,30 +50,32 @@ class Decks extends React.Component {
                 name={item.title}
                 cards={item.questions}
                 numberOfDecks={decks.length}
-                updateDeckList={this.updateDeckList}
                 decks={decks}
               />
             )}
             keyExtractor={(item, index) => index}
           />
         ) : (
-          <Welcome
-            // updateDeckList={this.updateDeckList}
-            navigation={navigation}
-          />
+          <Welcome navigation={navigation} />
         )}
       </View>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = store => {
   return {
-    decks: state.decks,
+    decks: store.decks,
   };
 };
 
-const DecksWithReduxStore = connect(mapStateToProps)(Decks);
+const mapDispatchToProps = dispatch => {
+  return {
+    initializeListOfDecks: decks => dispatch(initializeListOfDecks(decks)),
+  };
+};
+
+const DecksWithReduxStore = connect(mapStateToProps, mapDispatchToProps)(Decks);
 
 const styles = StyleSheet.create({
   dock: {

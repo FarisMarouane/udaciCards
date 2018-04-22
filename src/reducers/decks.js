@@ -9,16 +9,18 @@ const decks = (state = {}, action) => {
         },
       };
     case 'ADD_CARD':
-      // console.log(state[action.deckTitle]);
       return {
         ...state,
         [action.deckTitle]: {
           title: action.deckTitle,
-          questions: [
-            ...state[action.deckTitle]["questions"],
-            action.card,
-          ],
+          questions: [...state[action.deckTitle]['questions'], action.card],
         },
+      };
+    case 'INITIALIZE_DECKS':
+      console.log('Redux');
+      return {
+        ...state,
+        ...action.decks,
       };
     default:
       return state;
