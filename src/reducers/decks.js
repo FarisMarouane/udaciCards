@@ -17,7 +17,6 @@ const decks = (state = {}, action) => {
         },
       };
     case 'INITIALIZE_DECKS':
-      console.log('Redux');
       return {
         ...state,
         ...action.decks,

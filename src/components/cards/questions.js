@@ -61,7 +61,6 @@ export default class Questions extends React.Component {
     const { cards } = this.state;
     const { navigation } = this.props;
     const {
-      updateCardsListInDetailScreen,
       updateCardsListDecksScreen,
     } = this.props.navigation.state.params;
 
@@ -95,7 +94,6 @@ export default class Questions extends React.Component {
           <EmptyDeck
             navigation={navigation}
             updateCardsListDecksScreen={updateCardsListDecksScreen}
-            updateCardsListInDetailScreen={updateCardsListInDetailScreen}
           />
         )}
       </Swiper>

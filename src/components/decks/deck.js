@@ -19,11 +19,6 @@ class Deck extends React.Component {
     cards: this.props.cards,
   };
 
-  updateCardsListDecksScreen = () =>
-    getDeck(this.props.name)
-      .then(deck => this.setState({ cards: deck[0].questions }))
-      .catch(err => console.log(err));
-
   render() {
     const {
       navigation,
@@ -65,8 +60,6 @@ class Deck extends React.Component {
             navigation.navigate('Deck Detail', {
               name,
               cards,
-              decks,
-              updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }
         />
@@ -76,7 +69,6 @@ class Deck extends React.Component {
               name,
               cards,
               decks,
-              updateCardsListDecksScreen: this.updateCardsListDecksScreen,
             })
           }
           style={styles.touchable}

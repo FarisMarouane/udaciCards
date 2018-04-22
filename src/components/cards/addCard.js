@@ -37,18 +37,11 @@ class Card extends React.Component {
     title: 'Add Card',
   };
 
-  componentDidMount() {
-    // console.log(this.props);
-  }
-
   handleSubmit = async () => {
     const {
       title,
-      updateCardsListDecksScreen,
-      updateCardsListInDetailScreen,
-      decks,
     } =
-      this.props.navigation.state.params;
+    this.props.navigation.state.params;
     const { addCardAction } = this.props;  
     const value = this._form.getValue();
     if (value !== null) {
@@ -56,25 +49,14 @@ class Card extends React.Component {
         question: value.question.trim(),
         answer: value.answer.trim(),
       };
+
       addCardAction(title, trimmedValue);
       
-      // await addCardToDeck(title, trimmedValue);
-      await updateCardsListInDetailScreen();
-      await updateCardsListDecksScreen();
-
       const updatedCardsList = [];
-
-      await getDeck(title)
-        .then(deck => {
-          updatedCardsList = [...deck[0].questions];
-        })
-        .catch(err => console.log(err));
 
       this.props.navigation.navigate('Deck Detail', {
         name: title,
         cards: updatedCardsList,
-        decks,
-        updateCardsListDecksScreen,
       });
     }
   };

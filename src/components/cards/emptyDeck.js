@@ -16,14 +16,12 @@ export default ({
       onPress={() => {
         const {
           updateDeckList,
-          updateCardsListInDetailScreen,
           title,
         } = navigation.state.params;
         navigation.navigate('Add Card', {
           updateDeckList,
           updateInitialInCardsList,
           updateCardsListDecksScreen,
-          updateCardsListInDetailScreen,
           title,
         });
       }}
