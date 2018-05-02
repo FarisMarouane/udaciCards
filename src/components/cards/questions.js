@@ -8,6 +8,7 @@ import EmptyDeck from './emptyDeck';
 import { calculateScore } from '../../utils/helpers';
 
 export default class Questions extends React.Component {
+
   static navigationOptions = ({ navigation }) => {
     const { params } = navigation.state;
     const length = params.cards.length;
@@ -24,7 +25,7 @@ export default class Questions extends React.Component {
     questionsAnswered: {},
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.navigation.setParams({ index: 0 });
     const { cards } = this.props.navigation.state.params;
 
@@ -47,7 +48,7 @@ export default class Questions extends React.Component {
     }
   };
 
-  handleAnswer = (index, answer) =>
+  handleAnswer = (index, answer) => {
     this.setState(prevState => {
       return {
         questionsAnswered: {
@@ -57,18 +58,20 @@ export default class Questions extends React.Component {
       };
     });
 
+    this.swiper.scrollBy(1);;
+  };
+
   render() {
     const { cards } = this.state;
     const { navigation } = this.props;
-    const {
-      updateCardsListDecksScreen,
-    } = this.props.navigation.state.params;
+    const { updateCardsListDecksScreen } = this.props.navigation.state.params;
 
     return (
       <Swiper
         onIndexChanged={index => this.handleIndexChange(index)}
         showsButtons={true}
         loop={false}
+        ref={swiper => this.swiper=swiper}
       >
         {cards.length > 1 ? (
           cards.map((card, i) => {
